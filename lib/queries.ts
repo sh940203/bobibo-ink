@@ -71,9 +71,18 @@ export function getAnnouncement() {
   }, SEED.announcement)
 }
 
+export function getHeroPhotos() {
+  return read(async () => {
+    const r = await db.execute(
+      'SELECT * FROM artworks WHERE is_hero = 1 ORDER BY display_order ASC LIMIT 6'
+    )
+    return r.rows as unknown as Artwork[]
+  }, (SEED.artworks as any[]).filter((a) => a.is_hero === 1).slice(0, 6) as Artwork[])
+}
+
 export function getStudioPhotos() {
   return read(async () => {
-    const r = await db.execute('SELECT * FROM studio_photos ORDER BY display_order ASC LIMIT 3')
+    const r = await db.execute('SELECT * FROM studio_photos ORDER BY display_order ASC')
     return r.rows as unknown as StudioPhoto[]
   }, SEED.studio_photos)
 }

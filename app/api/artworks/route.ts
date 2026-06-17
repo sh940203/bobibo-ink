@@ -16,13 +16,12 @@ export async function POST(req: Request) {
   const denied = await guard()
   if (denied) return denied
 
-  const { title, category, image_url, r2_key, is_featured } = await req.json()
+  const { title, category, image_url, r2_key, is_featured, is_hero } = await req.json()
   if (!category || !GALLERY_CATEGORIES.includes(category)) {
     return NextResponse.json({ error: '分類無效' }, { status: 400 })
   }
   if (!image_url) return NextResponse.json({ error: '缺少圖片' }, { status: 400 })
 
-  // 精選最多 4 張
   if (is_featured) {
     const c = await db.execute('SELECT COUNT(*) AS c FROM artworks WHERE is_featured = 1')
     if (Number((c.rows[0] as any).c) >= 4) {
@@ -30,12 +29,19 @@ export async function POST(req: Request) {
     }
   }
 
+  if (is_hero) {
+    const c = await db.execute('SELECT COUNT(*) AS c FROM artworks WHERE is_hero = 1')
+    if (Number((c.rows[0] as any).c) >= 6) {
+      return NextResponse.json({ error: '首頁翅膀最多 6 張' }, { status: 400 })
+    }
+  }
+
   const ord = await db.execute('SELECT COALESCE(MAX(display_order), -1) + 1 AS n FROM artworks')
   const next = Number((ord.rows[0] as any).n)
 
   await db.execute({
-    sql: 'INSERT INTO artworks (title, category, image_url, r2_key, is_featured, display_order) VALUES (?,?,?,?,?,?)',
-    args: [title || null, category, image_url, r2_key || '', is_featured ? 1 : 0, next],
+    sql: 'INSERT INTO artworks (title, category, image_url, r2_key, is_featured, is_hero, display_order) VALUES (?,?,?,?,?,?,?)',
+    args: [title || null, category, image_url, r2_key || '', is_featured ? 1 : 0, is_hero ? 1 : 0, next],
   })
   return NextResponse.json({ ok: true })
 }

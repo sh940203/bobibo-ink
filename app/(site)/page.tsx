@@ -7,6 +7,7 @@ import BookingRules from '@/components/site/BookingRules'
 import InquiryForm from '@/components/site/InquiryForm'
 import {
   getFeaturedArtworks,
+  getHeroPhotos,
   getAbout,
   getStudioPhotos,
   getAnnouncement,
@@ -17,8 +18,9 @@ import {
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
-  const [featured, about, photos, announcement, rules, pricing] = await Promise.all([
+  const [featured, heroPhotos, about, photos, announcement, rules, pricing] = await Promise.all([
     getFeaturedArtworks(),
+    getHeroPhotos(),
     getAbout(),
     getStudioPhotos(),
     getAnnouncement(),
@@ -28,7 +30,7 @@ export default async function Home() {
 
   return (
     <>
-      <Hero />
+      <Hero heroPhotos={heroPhotos} />
       <About about={about} photos={photos} announcement={announcement} />
       <Gallery featured={featured} />
       <BookingRules rules={rules} />

@@ -37,6 +37,19 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     fields.push('is_featured = ?')
     args.push(body.is_featured ? 1 : 0)
   }
+  if (body.is_hero !== undefined) {
+    if (body.is_hero) {
+      const c = await db.execute({
+        sql: 'SELECT COUNT(*) AS c FROM artworks WHERE is_hero = 1 AND id != ?',
+        args: [id],
+      })
+      if (Number((c.rows[0] as any).c) >= 6) {
+        return NextResponse.json({ error: '首頁翅膀最多 6 張' }, { status: 400 })
+      }
+    }
+    fields.push('is_hero = ?')
+    args.push(body.is_hero ? 1 : 0)
+  }
   if (fields.length === 0) return NextResponse.json({ ok: true })
 
   args.push(id)

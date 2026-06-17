@@ -1,9 +1,60 @@
 'use client'
 import { useRef } from 'react'
 import Image from 'next/image'
-import { useScroll } from 'framer-motion'
+import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
 import type { AboutContent, StudioPhoto, Announcement } from '@/lib/types'
 import RevealText from './RevealText'
+
+// 輪播：單張工作室照片，依 scrollYProgress 決定出現時機
+function CarouselSlide({
+  photo, idx, total, progress,
+}: {
+  photo: StudioPhoto; idx: number; total: number; progress: MotionValue<number>
+}) {
+  const PHASE_START = 0.5
+  const PHASE_END   = 1.0
+  const step  = (PHASE_END - PHASE_START) / total
+  const start = PHASE_START + idx * step
+  const end   = PHASE_START + (idx + 1) * step
+  const isLast = idx === total - 1
+
+  const opacity = useTransform(
+    progress,
+    isLast
+      ? [start, start + 0.04, 1.0]
+      : [start, start + 0.04, end - 0.04, end],
+    isLast ? [0, 1, 1] : [0, 1, 1, 0],
+  )
+  const scale = useTransform(progress, [start, end], [0.96, 1])
+
+  return (
+    <motion.div style={{ opacity, scale }} className="absolute inset-0 rounded-xl overflow-hidden">
+      <Image src={photo.image_url} alt={`工作室 ${idx + 1}`} fill sizes="480px" className="object-cover" />
+    </motion.div>
+  )
+}
+
+// 右下角頁碼指示器
+function SlideCounter({ total, progress }: { total: number; progress: MotionValue<number> }) {
+  return (
+    <div className="absolute bottom-3 right-4 flex gap-1.5 z-10">
+      {Array.from({ length: total }).map((_, i) => {
+        const PHASE_START = 0.5
+        const step  = 0.5 / total
+        const start = PHASE_START + i * step
+        const end   = start + step
+        const dotOpacity = useTransform(progress, [start, start + 0.03, end - 0.03, end], [0.3, 1, 1, 0.3])
+        return (
+          <motion.span
+            key={i}
+            style={{ opacity: dotOpacity }}
+            className="block w-1.5 h-1.5 rounded-full bg-white"
+          />
+        )
+      })}
+    </div>
+  )
+}
 
 export default function About({
   about,
@@ -16,22 +67,30 @@ export default function About({
 }) {
   const rotations = ['-3deg', '4deg', '-1.5deg']
   const pinRef = useRef<HTMLDivElement>(null)
-  // 桌機：220vh 釘選範圍；逐字亮起綁定此進度（畫面固定、滑動才亮）
+
+  // 整個釘選區的捲動進度（0→1 = 0→380vh）
   const { scrollYProgress } = useScroll({
     target: pinRef,
     offset: ['start start', 'end end'],
   })
 
+  // 第一階段（0→0.5）文字亮起；第二階段（0.5→1.0）照片輪播
+  const stackOpacity    = useTransform(scrollYProgress, [0.38, 0.50], [1, 0])
+  const carouselOpacity = useTransform(scrollYProgress, [0.46, 0.54], [0, 1])
+
+  const hasPhotos = photos.length > 0
+
   return (
     <>
-      {/* 釘選介紹區（桌機 sticky；手機正常流動） */}
+      {/* 釘選介紹區 */}
       <section
         id="about"
         ref={pinRef}
-        className="bg-white text-ink md:h-[220vh]"
+        className="bg-white text-ink md:h-[380vh]"
       >
         <div className="md:sticky md:top-0 md:h-screen flex items-center py-24 md:py-0 px-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center w-full">
+
             {/* 左欄文字 */}
             <div>
               <p className="font-body text-xs tracking-[0.3em] uppercase text-warm-gray mb-6">
@@ -46,7 +105,7 @@ export default function About({
                 <RevealText
                   text={about.body_text}
                   progress={scrollYProgress}
-                  revealRange={[0.05, 0.85]}
+                  revealRange={[0.03, 0.42]}
                   className="font-body font-light leading-relaxed text-ink max-w-md"
                   paragraphClassName="mb-4 last:mb-0"
                 />
@@ -60,42 +119,73 @@ export default function About({
               </a>
             </div>
 
-            {/* 右欄照片堆疊 */}
+            {/* 右欄：堆疊（文字階段）→ 輪播（照片階段） */}
             <div className="flex justify-center">
-              <div className="photo-stack relative w-64 h-80 md:w-80 md:h-96">
-                {[0, 1, 2].map((i) => {
-                  const photo = photos[i]
-                  return (
-                    <div
-                      key={i}
-                      className={`photo photo-${i + 1} absolute inset-0 polaroid`}
-                      style={{ transform: `rotate(${rotations[i]})`, zIndex: 3 - i }}
-                    >
-                      <div className="relative w-full h-full bg-warm-gray/20">
-                        {photo ? (
-                          <Image
-                            src={photo.image_url}
-                            alt={`工作室環境照 ${i + 1}`}
-                            fill
-                            sizes="320px"
-                            className="object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-warm-gray text-xs">
-                            工作室照 {i + 1}
-                          </div>
-                        )}
+              <div className="relative w-64 h-80 md:w-80 md:h-96">
+
+                {/* 堆疊照片（文字階段，桌機逐漸淡出） */}
+                <motion.div
+                  style={{ opacity: stackOpacity }}
+                  className="absolute inset-0 photo-stack"
+                >
+                  {[0, 1, 2].map((i) => {
+                    const photo = photos[i]
+                    return (
+                      <div
+                        key={i}
+                        className={`photo photo-${i + 1} absolute inset-0 polaroid`}
+                        style={{ transform: `rotate(${rotations[i]})`, zIndex: 3 - i }}
+                      >
+                        <div className="relative w-full h-full bg-warm-gray/20">
+                          {photo ? (
+                            <Image
+                              src={photo.image_url}
+                              alt={`工作室環境照 ${i + 1}`}
+                              fill
+                              sizes="320px"
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-warm-gray text-xs">
+                              工作室照 {i + 1}
+                            </div>
+                          )}
+                        </div>
                       </div>
+                    )
+                  })}
+                </motion.div>
+
+                {/* 輪播（照片階段，桌機逐漸淡入） */}
+                {hasPhotos && (
+                  <motion.div
+                    style={{ opacity: carouselOpacity }}
+                    className="absolute inset-0 hidden md:block polaroid"
+                  >
+                    <div className="relative w-full h-full bg-warm-gray/20 rounded-xl overflow-hidden">
+                      {photos.map((photo, i) => (
+                        <CarouselSlide
+                          key={photo.id}
+                          photo={photo}
+                          idx={i}
+                          total={photos.length}
+                          progress={scrollYProgress}
+                        />
+                      ))}
+                      {photos.length > 1 && (
+                        <SlideCounter total={photos.length} progress={scrollYProgress} />
+                      )}
                     </div>
-                  )
-                })}
+                  </motion.div>
+                )}
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* 工作室位置（一般流動，介紹結束後出現） */}
+      {/* 工作室位置（一般流動） */}
       <section className="bg-white text-ink px-6 pb-24 md:pb-32">
         <div className="reveal max-w-6xl mx-auto">
           <div className="border border-ink/10 rounded-xl overflow-hidden">

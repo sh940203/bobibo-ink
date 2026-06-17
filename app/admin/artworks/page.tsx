@@ -16,10 +16,12 @@ export default function ArtworksAdmin() {
   const [category, setCategory] = useState<GalleryCategory>('client')
   const [title, setTitle] = useState('')
   const [featured, setFeatured] = useState(false)
+  const [isHero, setIsHero] = useState(false)
   const [uploading, setUploading] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
 
   const featuredCount = items.filter((i) => i.is_featured).length
+  const heroCount     = items.filter((i) => i.is_hero).length
 
   const load = async () => {
     setLoading(true)
@@ -47,12 +49,13 @@ export default function ArtworksAdmin() {
       const { url, key } = await uploadFile(file, 'artworks')
       await api('/api/artworks', {
         method: 'POST',
-        body: JSON.stringify({ image_url: url, r2_key: key, category, title, is_featured: featured }),
+        body: JSON.stringify({ image_url: url, r2_key: key, category, title, is_featured: featured, is_hero: isHero }),
       })
       toast.success('已新增作品')
       pickFile(null)
       setTitle('')
       setFeatured(false)
+      setIsHero(false)
       if (fileRef.current) fileRef.current.value = ''
       load()
     } catch (e) {
@@ -89,7 +92,7 @@ export default function ArtworksAdmin() {
     <div>
       <h1 className="font-body font-semibold text-2xl tracking-tight mb-1">作品集管理</h1>
       <p className="text-sm text-cream/50 mb-8">
-        精選作品 {featuredCount} / 4　·　共 {items.length} 件
+        精選作品 {featuredCount} / 4　·　首頁翅膀 {heroCount} / 6　·　共 {items.length} 件
       </p>
 
       {/* 上傳區 */}
@@ -144,6 +147,16 @@ export default function ArtworksAdmin() {
                 className="accent-cream"
               />
               設為首頁精選{!featured && featuredCount >= 4 && '（已達 4 張上限）'}
+            </label>
+            <label className="flex items-center gap-2 text-sm text-cream/80">
+              <input
+                type="checkbox"
+                checked={isHero}
+                onChange={(e) => setIsHero(e.target.checked)}
+                disabled={!isHero && heroCount >= 6}
+                className="accent-cream"
+              />
+              設為首頁翅膀{!isHero && heroCount >= 6 && '（已達 6 張上限）'}
             </label>
             <div>
               <button
@@ -211,6 +224,16 @@ export default function ArtworksAdmin() {
                     className="accent-cream"
                   />
                   精選
+                </label>
+                <label className="flex items-center gap-2 text-xs text-cream/70">
+                  <input
+                    type="checkbox"
+                    checked={!!a.is_hero}
+                    onChange={(e) => patch(a.id, { is_hero: e.target.checked ? 1 : 0 })}
+                    disabled={!a.is_hero && heroCount >= 6}
+                    className="accent-cream"
+                  />
+                  首頁翅膀
                 </label>
                 <button onClick={() => del(a.id)} className="text-xs text-red-400/80 hover:text-red-400 text-left">
                   刪除
