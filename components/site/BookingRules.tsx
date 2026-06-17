@@ -3,6 +3,22 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
 import type { BookingRule } from '@/lib/types'
 
+// 這些關鍵字會加螢光筆效果
+const HIGHLIGHTS = [
+  '女性', '訂金', '恕不退還訂金', '一次改期機會',
+  '現金', '匯款', '攜伴一位', '15分鐘', '訂金不予退還', '三天前',
+]
+
+function highlight(text: string) {
+  const pattern = new RegExp(`(${HIGHLIGHTS.map(k => k.replace(/[/\\^$*+?.()|[\]{}]/g, '\\$&')).join('|')})`, 'g')
+  const parts = text.split(pattern)
+  return parts.map((part, i) =>
+    HIGHLIGHTS.includes(part)
+      ? <mark key={i} className="rule-mark">{part}</mark>
+      : part
+  )
+}
+
 function RuleRow({
   rule,
   index,
@@ -25,7 +41,7 @@ function RuleRow({
       <span className="font-display italic text-sage text-lg w-10 shrink-0">
         {String(index + 1).padStart(2, '0')}.
       </span>
-      <p className="font-body font-light text-cream leading-relaxed rule-text">{rule.content}</p>
+      <p className="font-body font-light text-cream leading-relaxed rule-text">{highlight(rule.content)}</p>
     </motion.li>
   )
 }
@@ -48,6 +64,11 @@ export default function BookingRules({ rules }: { rules: BookingRule[] }) {
         </h2>
 
         <style>{`
+          .rule-mark {
+            background: linear-gradient(transparent 55%, rgba(255, 215, 60, 0.45) 45%);
+            color: inherit;
+            padding: 0 1px;
+          }
           .rule-text::selection,
           .rule-text *::selection {
             background: rgba(255, 210, 100, 0.35);

@@ -42,7 +42,7 @@ export default function Nav() {
           href="/"
           className="font-body font-semibold text-xl tracking-[-0.02em] text-cream leading-none"
         >
-          彈塗魚
+          彈塗魚•tattoo魚
         </a>
 
         {/* 桌機連結 */}
