@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { SESSION_COOKIE, SESSION_MAX_AGE, createSessionToken } from '@/lib/auth'
 
-export const runtime = 'nodejs'
+export const runtime = 'edge'
 
 export async function POST(req: Request) {
   const { password } = await req.json().catch(() => ({}))
@@ -10,7 +10,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: '密碼錯誤' }, { status: 401 })
   }
   const token = await createSessionToken()
-  cookies().set(SESSION_COOKIE, token, {
+  const jar = await cookies()
+  jar.set(SESSION_COOKIE, token, {
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
@@ -21,6 +22,7 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE() {
-  cookies().delete(SESSION_COOKIE)
+  const jar = await cookies()
+  jar.delete(SESSION_COOKIE)
   return NextResponse.json({ ok: true })
 }

@@ -1,3 +1,5 @@
+export const runtime = 'edge'
+
 import Hero from '@/components/site/Hero'
 import About from '@/components/site/About'
 import Gallery from '@/components/site/Gallery'

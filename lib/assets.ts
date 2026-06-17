@@ -23,29 +23,18 @@ export async function saveAsset(
   const objectKey = `${folder}/${nanoid()}.${ext}`
   const buffer = Buffer.from(await file.arrayBuffer())
 
-  if (r2Configured()) {
-    const { uploadToR2 } = await import('./r2')
-    const url = await uploadToR2(buffer, objectKey, file.type)
-    return { url, key: objectKey }
+  if (!r2Configured()) {
+    throw new Error('R2 未設定，無法上傳檔案')
   }
-
-  // 本機 fallback
-  const { writeFile, mkdir } = await import('node:fs/promises')
-  const { join, dirname } = await import('node:path')
-  const dest = join(process.cwd(), 'public', 'uploads', objectKey)
-  await mkdir(dirname(dest), { recursive: true })
-  await writeFile(dest, buffer)
-  return { url: `/uploads/${objectKey}`, key: `local:${objectKey}` }
+  const { uploadToR2 } = await import('./r2')
+  const url = await uploadToR2(buffer, objectKey, file.type)
+  return { url, key: objectKey }
 }
 
 export async function deleteAsset(key: string | null | undefined): Promise<void> {
   if (!key) return
   try {
-    if (key.startsWith('local:')) {
-      const { unlink } = await import('node:fs/promises')
-      const { join } = await import('node:path')
-      await unlink(join(process.cwd(), 'public', 'uploads', key.slice('local:'.length)))
-    } else if (r2Configured()) {
+    if (r2Configured() && !key.startsWith('local:')) {
       const { deleteFromR2 } = await import('./r2')
       await deleteFromR2(key)
     }

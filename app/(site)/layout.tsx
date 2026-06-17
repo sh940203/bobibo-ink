@@ -1,3 +1,5 @@
+export const runtime = 'edge'
+
 import Nav from '@/components/site/Nav'
 import Footer from '@/components/site/Footer'
 import ScrollReveal from '@/components/ui/ScrollReveal'

@@ -3,16 +3,16 @@ import { db } from '@/lib/db'
 import { guard } from '@/lib/admin-guard'
 import { deleteAsset } from '@/lib/assets'
 
-export const runtime = 'nodejs'
+export const runtime = 'edge'
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const denied = await guard()
   if (denied) return denied
 
   const body = await req.json()
-  const id = Number(params.id)
+  const { id: idStr } = await params
+  const id = Number(idStr)
 
-  // 精選上限檢查（要設為精選時）
   if (body.is_featured) {
     const c = await db.execute({
       sql: 'SELECT COUNT(*) AS c FROM artworks WHERE is_featured = 1 AND id != ?',
@@ -44,11 +44,12 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   return NextResponse.json({ ok: true })
 }
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const denied = await guard()
   if (denied) return denied
 
-  const id = Number(params.id)
+  const { id: idStr } = await params
+  const id = Number(idStr)
   const r = await db.execute({ sql: 'SELECT r2_key FROM artworks WHERE id = ?', args: [id] })
   const key = (r.rows[0] as any)?.r2_key as string | undefined
   await deleteAsset(key)

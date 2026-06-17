@@ -1,4 +1,4 @@
-import { createClient, type Client } from '@libsql/client'
+import { createClient, type Client } from '@libsql/client/web'
 
 // 延遲建立 client：避免在沒有 TURSO_DATABASE_URL 的環境（如建置階段）於
 // import 時就丟錯。實際被使用時（Admin API）才初始化；前台走 seed fallback。

@@ -4,7 +4,7 @@ import { SESSION_COOKIE, verifySessionToken } from './auth'
 
 /** 在 API route 內檢查是否已登入 */
 export async function isAuthed(): Promise<boolean> {
-  const token = cookies().get(SESSION_COOKIE)?.value
+  const token = (await cookies()).get(SESSION_COOKIE)?.value
   return verifySessionToken(token)
 }
 

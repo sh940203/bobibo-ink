@@ -4,8 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        // 換成你的 R2 Public URL hostname，例如 pub-xxxxxx.r2.dev
-        hostname: process.env.R2_PUBLIC_HOSTNAME || 'pub-xxxxxx.r2.dev',
+        hostname: process.env.R2_PUBLIC_HOSTNAME || 'pub-d94179fb37354f7894cc771aed26649a.r2.dev',
       },
     ],
   },

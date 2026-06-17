@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { guard } from '@/lib/admin-guard'
 import { saveAsset } from '@/lib/assets'
 
-export const runtime = 'nodejs'
+export const runtime = 'edge'
 
 export async function POST(req: Request) {
   const denied = await guard()

@@ -3,12 +3,13 @@ import { db } from '@/lib/db'
 import { guard } from '@/lib/admin-guard'
 import { deleteAsset } from '@/lib/assets'
 
-export const runtime = 'nodejs'
+export const runtime = 'edge'
 
-export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const denied = await guard()
   if (denied) return denied
-  const id = Number(params.id)
+  const { id: idStr } = await params
+  const id = Number(idStr)
   const r = await db.execute({ sql: 'SELECT r2_key FROM studio_photos WHERE id = ?', args: [id] })
   await deleteAsset((r.rows[0] as any)?.r2_key)
   await db.execute({ sql: 'DELETE FROM studio_photos WHERE id = ?', args: [id] })

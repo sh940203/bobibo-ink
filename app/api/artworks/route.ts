@@ -3,7 +3,7 @@ import { db } from '@/lib/db'
 import { guard } from '@/lib/admin-guard'
 import { GALLERY_CATEGORIES } from '@/lib/types'
 
-export const runtime = 'nodejs'
+export const runtime = 'edge'
 
 export async function GET() {
   const denied = await guard()

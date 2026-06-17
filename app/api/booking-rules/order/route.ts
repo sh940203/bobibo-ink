@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { guard } from '@/lib/admin-guard'
 
-export const runtime = 'nodejs'
+export const runtime = 'edge'
 
 // body = { ids: [orderedId, ...] }
 export async function PUT(req: Request) {

@@ -1,6 +1,7 @@
 import GalleryGrid from '@/components/site/GalleryGrid'
 import { getAllArtworks } from '@/lib/queries'
 
+export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
