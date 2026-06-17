@@ -1,0 +1,18 @@
+/node_modules
+/.next/
+/out/
+.env
+.env.local
+.env*.local
+.vercel
+.wrangler
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+
+# 本機 libSQL 資料庫
+local.db
+local.db-*
+
+# 本機上傳圖片（R2 未設定時的 fallback）
+/public/uploads

@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #0e0e0d;
+  --cream: #f2f0eb;
+  --paper: #ffffff;
+  --sage: #a8a39a;
+  --warm-gray: #8e8980;
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ───────────────────────── 滾動 Reveal ───────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.76, 0, 0.24, 1),
+    transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 {
+  transition-delay: 0.1s;
+}
+.reveal-delay-2 {
+  transition-delay: 0.2s;
+}
+.reveal-delay-3 {
+  transition-delay: 0.3s;
+}
+.reveal-delay-4 {
+  transition-delay: 0.4s;
+}
+
+/* ───────────────────────── Nav 文字 hover 切換 ───────────────────────── */
+.nav-link-wrap {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  height: 1.2em;
+  line-height: 1.2em;
+}
+.nav-link-wrap span {
+  display: block;
+  transition: transform 0.35s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.nav-link-wrap span.second {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: var(--sage);
+}
+.nav-link-wrap:hover span.first {
+  transform: translateY(-100%);
+}
+.nav-link-wrap:hover span.second {
+  transform: translateY(-100%);
+}
+
+/* ───────────────────────── 按鈕 fill 動畫 ───────────────────────── */
+.btn-fill {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--sage);
+  color: var(--sage);
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  transition: color 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.btn-fill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--sage);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+  z-index: -1;
+}
+.btn-fill:hover {
+  color: var(--ink);
+}
+.btn-fill:hover::before {
+  transform: scaleX(1);
+}
+
+/* ───────────────────────── 作品集 hover ───────────────────────── */
+.port-item {
+  position: relative;
+  overflow: hidden;
+}
+.port-bg {
+  transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.port-item:hover .port-bg {
+  transform: scale(1.06);
+}
+.port-label {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.port-item:hover .port-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ───────────────────────── 底部 Marquee ───────────────────────── */
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+}
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ───────────────────────── 照片堆疊 hover ───────────────────────── */
+.photo-stack {
+  position: relative;
+}
+.photo-stack .photo {
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.photo-stack:hover .photo-1 {
+  transform: translate(-4px, -6px) rotate(-1deg);
+}
+.photo-stack:hover .photo-2 {
+  transform: translate(4px, 6px) rotate(1.5deg);
+}
+.photo-stack:hover .photo-3 {
+  transform: translate(3px, -4px) rotate(-2deg);
+}
+
+/* ───────────────────────── 極簡標籤（取代膠帶風） ───────────────────────── */
+.tape-label {
+  display: inline-block;
+  background: rgba(14, 14, 13, 0.72);
+  color: #fff;
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 400;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  backdrop-filter: blur(6px);
+}
+
+/* 極簡作品框（細邊、無 polaroid 厚白邊） */
+.polaroid {
+  background: #fff;
+  padding: 0;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+}
+
+/* ───────────────────────── 顆粒質感 grain ───────────────────────── */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.09;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* 圓拱 lozenge 遮罩（Syndicate 風格卡片） */
+.lozenge {
+  border-radius: 9999px 9999px 9999px 9999px / 50% 50% 50% 50%;
+  border-top-left-radius: 50% 30%;
+  border-top-right-radius: 50% 30%;
+  border-bottom-left-radius: 50% 18%;
+  border-bottom-right-radius: 50% 18%;
+  overflow: hidden;
+}
+
+/* ───────────────────────── prefers-reduced-motion ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

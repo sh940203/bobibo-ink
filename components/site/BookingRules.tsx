@@ -1,0 +1,61 @@
+'use client'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
+import type { BookingRule } from '@/lib/types'
+
+function RuleRow({
+  rule,
+  index,
+  total,
+  progress,
+}: {
+  rule: BookingRule
+  index: number
+  total: number
+  progress: MotionValue<number>
+}) {
+  // 逐格亮起：整列（序號＋文字）一起由暗轉亮
+  const span = 0.8
+  const start = (index / total) * span
+  const end = start + (1 / total) * span + 0.05
+  const opacity = useTransform(progress, [start, Math.min(end, 1)], [0.2, 1])
+
+  return (
+    <motion.li style={{ opacity }} className="flex gap-5 py-5 border-t border-white/10 first:border-t-0">
+      <span className="font-display italic text-sage text-lg w-10 shrink-0">
+        {String(index + 1).padStart(2, '0')}.
+      </span>
+      <p className="font-body font-light text-cream leading-relaxed">{rule.content}</p>
+    </motion.li>
+  )
+}
+
+export default function BookingRules({ rules }: { rules: BookingRule[] }) {
+  const ref = useRef<HTMLOListElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start 0.8', 'end 0.6'],
+  })
+
+  return (
+    <section id="booking" className="bg-ink py-24 md:py-32 px-6 border-t border-white/10">
+      <div className="max-w-4xl mx-auto">
+        <p className="reveal font-body text-xs tracking-[0.3em] uppercase text-warm-gray mb-4">
+          ✦ Before You Book
+        </p>
+        <h2 className="reveal reveal-delay-1 font-display italic text-4xl md:text-5xl text-cream mb-14">
+          預約須知
+        </h2>
+
+        <ol ref={ref}>
+          {rules.length === 0 && (
+            <li className="py-5 font-body text-warm-gray">（條款將由 Admin 後台編輯）</li>
+          )}
+          {rules.map((rule, i) => (
+            <RuleRow key={rule.id} rule={rule} index={i} total={rules.length} progress={scrollYProgress} />
+          ))}
+        </ol>
+      </div>
+    </section>
+  )
+}
