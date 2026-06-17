@@ -1,7 +1,7 @@
 'use client'
-import { useEffect, useMemo, useRef, useState } from 'react'
-import type { Pricing, Category, Size } from '@/lib/types'
-import { CATEGORIES, CATEGORY_LABELS, SIZES, SIZE_LABELS } from '@/lib/types'
+import { useEffect, useRef, useState } from 'react'
+import type { Pricing, Category } from '@/lib/types'
+import { CATEGORIES, CATEGORY_LABELS } from '@/lib/types'
 
 type Attachment = { file: File; url: string; isImage: boolean }
 
@@ -10,14 +10,14 @@ const STYLE_OPTIONS: { value: string; label: string }[] = [
   { value: 'other', label: '其他（請於描述說明）' },
 ]
 
-const BODY_PARTS = ['手臂', '前臂', '手腕', '手指', '腳踝', '小腿', '大腿', '背部', '肋骨', '鎖骨', '其他']
+const BODY_PARTS = ['手臂', '前臂', '手腕', '手指', '腳踝', '小腿', '大腿', '背部', '肋骨', '側腰', '鎖骨', '其他']
 
 export default function InquiryForm({ pricing }: { pricing: Pricing[] }) {
   const [name, setName] = useState('')
   const [contact, setContact] = useState('')
   const [style, setStyle] = useState('')
   const [parts, setParts] = useState<string[]>([])
-  const [size, setSize] = useState<Size | ''>('')
+  const [size, setSize] = useState('')
   const [desc, setDesc] = useState('')
   const [time, setTime] = useState('')
   const [ageOk, setAgeOk] = useState(false)
@@ -47,12 +47,6 @@ export default function InquiryForm({ pricing }: { pricing: Pricing[] }) {
       return prev.filter((_, i) => i !== idx)
     })
   }
-
-  // 即時估價
-  const estimate = useMemo(() => {
-    if (!style || !size || style === 'other') return null
-    return pricing.find((p) => p.style === (style as Category) && p.size === size)?.price_range ?? null
-  }, [style, size, pricing])
 
   const togglePart = (p: string) =>
     setParts((prev) => (prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]))
@@ -122,13 +116,13 @@ export default function InquiryForm({ pricing }: { pricing: Pricing[] }) {
           </Field>
 
           {/* 聯絡方式 */}
-          <Field label="聯絡方式（IG / 手機 / Email）" required>
+          <Field label="聯絡方式（IG / LINE ID）" required>
             <input
               type="text"
               value={contact}
               onChange={(e) => setContact(e.target.value)}
               className="inp"
-              placeholder="@your_ig 或手機 / Email"
+              placeholder="@your_ig 或 LINE ID"
             />
           </Field>
 
@@ -164,44 +158,16 @@ export default function InquiryForm({ pricing }: { pricing: Pricing[] }) {
             </div>
           </Field>
 
-          {/* 尺寸 單選 */}
+          {/* 尺寸 自由輸入 */}
           <Field label="尺寸大小">
-            <div className="flex flex-wrap gap-2">
-              {SIZES.map((s) => (
-                <button
-                  type="button"
-                  key={s}
-                  onClick={() => setSize(s)}
-                  title={SIZE_LABELS[s]}
-                  className={`tag-btn px-5 py-1.5 rounded-full border text-sm transition-colors ${
-                    size === s
-                      ? 'bg-sage border-sage text-white'
-                      : 'border-ink/20 text-ink/70 hover:border-sage'
-                  }`}
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-            {size && (
-              <p className="font-body text-xs text-warm-gray mt-2">{SIZE_LABELS[size]}</p>
-            )}
+            <input
+              type="text"
+              value={size}
+              onChange={(e) => setSize(e.target.value)}
+              className="inp"
+              placeholder="長 × 寬 cm"
+            />
           </Field>
-
-          {/* 即時估價 */}
-          {estimate && (
-            <div className="bg-white border border-ink/10 rounded-lg px-6 py-5 text-center">
-              <p className="font-body text-xs tracking-widest uppercase text-warm-gray mb-1">
-                預估費用範圍
-              </p>
-              <p className="font-display italic text-3xl text-sage">
-                {estimate === '面議' ? '面議' : `NT$ ${estimate}`}
-              </p>
-              <p className="font-body text-xs text-warm-gray mt-2">
-                實際費用依圖案複雜度調整
-              </p>
-            </div>
-          )}
 
           {/* 描述 */}
           <Field label="圖案描述 / 參考圖說明">

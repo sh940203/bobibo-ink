@@ -25,7 +25,7 @@ function RuleRow({
       <span className="font-display italic text-sage text-lg w-10 shrink-0">
         {String(index + 1).padStart(2, '0')}.
       </span>
-      <p className="font-body font-light text-cream leading-relaxed">{rule.content}</p>
+      <p className="font-body font-light text-cream leading-relaxed rule-text">{rule.content}</p>
     </motion.li>
   )
 }
@@ -47,6 +47,14 @@ export default function BookingRules({ rules }: { rules: BookingRule[] }) {
           預約須知
         </h2>
 
+        <style>{`
+          .rule-text::selection,
+          .rule-text *::selection {
+            background: rgba(255, 210, 100, 0.35);
+            color: #fff;
+            text-shadow: 0 0 12px rgba(255, 200, 60, 0.9), 0 0 24px rgba(255, 180, 0, 0.5);
+          }
+        `}</style>
         <ol ref={ref}>
           {rules.length === 0 && (
             <li className="py-5 font-body text-warm-gray">（條款將由 Admin 後台編輯）</li>
