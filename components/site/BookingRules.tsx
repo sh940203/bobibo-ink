@@ -65,9 +65,8 @@ export default function BookingRules({ rules }: { rules: BookingRule[] }) {
 
         <style>{`
           .rule-mark {
-            background: linear-gradient(transparent 55%, rgba(255, 215, 60, 0.45) 45%);
-            color: inherit;
-            padding: 0 1px;
+            color: #FFE000;
+            font-weight: 500;
           }
           .rule-text::selection,
           .rule-text *::selection {
