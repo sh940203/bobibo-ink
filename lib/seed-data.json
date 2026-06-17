@@ -1,0 +1,415 @@
+{
+  "artworks": [
+    {
+      "id": 1,
+      "title": "蝴蝶與櫻花",
+      "category": "client",
+      "image_url": "/images/works/12.jpg",
+      "r2_key": "",
+      "is_featured": 1,
+      "display_order": 0,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 2,
+      "title": "羅馬數字",
+      "category": "client",
+      "image_url": "/images/works/1.jpg",
+      "r2_key": "",
+      "is_featured": 1,
+      "display_order": 1,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 3,
+      "title": "星與月",
+      "category": "client",
+      "image_url": "/images/works/8.jpg",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 2,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 4,
+      "title": "小符號排列",
+      "category": "client",
+      "image_url": "/images/works/2.jpg",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 3,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 5,
+      "title": "羅馬數字",
+      "category": "client",
+      "image_url": "/images/works/3.jpg",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 4,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 6,
+      "title": "軟糖熊",
+      "category": "client",
+      "image_url": "/images/works/4.jpg",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 5,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 7,
+      "title": "蝴蝶",
+      "category": "client",
+      "image_url": "/images/works/5.jpg",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 6,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 8,
+      "title": "雲與月",
+      "category": "client",
+      "image_url": "/images/works/6.jpg",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 7,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 9,
+      "title": "星星",
+      "category": "client",
+      "image_url": "/images/works/7.jpg",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 8,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 10,
+      "title": "幸運草與流星",
+      "category": "client",
+      "image_url": "/images/works/9.jpg",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 9,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 11,
+      "title": "羅馬數字",
+      "category": "client",
+      "image_url": "/images/works/10.jpg",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 10,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 12,
+      "title": "蝴蝶與花",
+      "category": "client",
+      "image_url": "/images/works/11.jpg",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 11,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 13,
+      "title": "狼與虎",
+      "category": "practice",
+      "image_url": "/images/practice/1.jpg",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 12,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 14,
+      "title": "動漫人物",
+      "category": "practice",
+      "image_url": "/images/practice/3.jpg",
+      "r2_key": "",
+      "is_featured": 1,
+      "display_order": 13,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 15,
+      "title": "動漫人物",
+      "category": "practice",
+      "image_url": "/images/practice/4.jpg",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 14,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 16,
+      "title": "小圖練習",
+      "category": "practice",
+      "image_url": "/images/practice/2.jpg",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 15,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 17,
+      "title": "花與字",
+      "category": "design",
+      "image_url": "/images/designs/1.png",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 16,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 18,
+      "title": "蓮花",
+      "category": "design",
+      "image_url": "/images/designs/2.png",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 17,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 19,
+      "title": "酒杯",
+      "category": "design",
+      "image_url": "/images/designs/3.png",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 18,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 20,
+      "title": "認領圖",
+      "category": "design",
+      "image_url": "/images/designs/4.png",
+      "r2_key": "",
+      "is_featured": 0,
+      "display_order": 19,
+      "created_at": "2026-06-16 19:12:32"
+    },
+    {
+      "id": 21,
+      "title": "認領圖",
+      "category": "design",
+      "image_url": "/images/designs/5.png",
+      "r2_key": "",
+      "is_featured": 1,
+      "display_order": 20,
+      "created_at": "2026-06-16 19:12:32"
+    }
+  ],
+  "about": {
+    "id": 1,
+    "body_text": "因為常被朋友說長得像魚，所以工作室也乾脆取名叫彈塗魚。\n\n是一位持續學習中的刺青工作者，目前以居家工作室形式接案，希望透過作品留下每個人珍惜的人、事、物。\n\n目前以寵物肖像、動漫人物、線條文字及客製化小圖為主要創作方向。\n\n如果你有想記住的人、事、物，或只是單純喜歡某個圖案，歡迎找我一起討論，把它變成專屬於你的作品。\n\n比起複製別人的圖案，我更喜歡和你一起創作屬於你的故事。",
+    "updated_at": "2026-06-16 18:11:20"
+  },
+  "booking_rules": [
+    {
+      "id": 15,
+      "content": "不接未滿十八歲顧客",
+      "display_order": 1
+    },
+    {
+      "id": 16,
+      "content": "目前暫時以女性顧客預約為主",
+      "display_order": 2
+    },
+    {
+      "id": 17,
+      "content": "預約需支付訂金，金額依圖案大小而定",
+      "display_order": 3
+    },
+    {
+      "id": 18,
+      "content": "完成預約後恕不退還訂金，如需改期請提前告知，可保留一次改期機會",
+      "display_order": 4
+    },
+    {
+      "id": 19,
+      "content": "刺青前一天請勿飲酒",
+      "display_order": 5
+    },
+    {
+      "id": 20,
+      "content": "刺青前一天務必睡眠充足",
+      "display_order": 6
+    },
+    {
+      "id": 21,
+      "content": "刺青當天務必吃飽，避免空腹",
+      "display_order": 7
+    },
+    {
+      "id": 22,
+      "content": "盡量穿著深色服裝或方便施作的衣物，以免沾染顏料",
+      "display_order": 8
+    },
+    {
+      "id": 23,
+      "content": "付費方式：現金／匯款",
+      "display_order": 9
+    },
+    {
+      "id": 24,
+      "content": "攜伴需提前告知，由於工作室空間不大，僅開放攜伴一位",
+      "display_order": 10
+    },
+    {
+      "id": 25,
+      "content": "工作室備有沙發及插座可供使用",
+      "display_order": 11
+    },
+    {
+      "id": 26,
+      "content": "遲到保留 15 分鐘，超過時間視同取消，訂金不予退還（若有緊急狀況請提前聯繫）",
+      "display_order": 12
+    },
+    {
+      "id": 27,
+      "content": "欲更改預約時間，請於三天前告知",
+      "display_order": 13
+    },
+    {
+      "id": 28,
+      "content": "刺青完成後將提供完整保養說明",
+      "display_order": 14
+    }
+  ],
+  "announcement": {
+    "id": 1,
+    "is_visible": 1,
+    "message": "工作室預計於今年十月搬遷至彰化縣員林市，詳細地址及工作室環境將於後續更新。",
+    "updated_at": "2026-06-16 18:04:40"
+  },
+  "studio_photos": [
+    {
+      "id": 7,
+      "image_url": "/images/personal/portrait.jpg",
+      "r2_key": "",
+      "display_order": 0
+    },
+    {
+      "id": 8,
+      "image_url": "/images/personal/dog.jpg",
+      "r2_key": "",
+      "display_order": 1
+    },
+    {
+      "id": 9,
+      "image_url": "/images/personal/cat.jpg",
+      "r2_key": "",
+      "display_order": 2
+    }
+  ],
+  "pricing": [
+    {
+      "id": 1,
+      "style": "pet",
+      "size": "S",
+      "price_range": "3,500 – 6,000"
+    },
+    {
+      "id": 2,
+      "style": "pet",
+      "size": "M",
+      "price_range": "6,000 – 12,000"
+    },
+    {
+      "id": 3,
+      "style": "pet",
+      "size": "L",
+      "price_range": "12,000 – 20,000"
+    },
+    {
+      "id": 4,
+      "style": "pet",
+      "size": "XL",
+      "price_range": "20,000+"
+    },
+    {
+      "id": 5,
+      "style": "anime",
+      "size": "S",
+      "price_range": "3,000 – 5,500"
+    },
+    {
+      "id": 6,
+      "style": "anime",
+      "size": "M",
+      "price_range": "5,500 – 11,000"
+    },
+    {
+      "id": 7,
+      "style": "anime",
+      "size": "L",
+      "price_range": "11,000 – 18,000"
+    },
+    {
+      "id": 8,
+      "style": "anime",
+      "size": "XL",
+      "price_range": "18,000+"
+    },
+    {
+      "id": 9,
+      "style": "linework",
+      "size": "S",
+      "price_range": "2,000 – 4,000"
+    },
+    {
+      "id": 10,
+      "style": "linework",
+      "size": "M",
+      "price_range": "4,000 – 8,000"
+    },
+    {
+      "id": 11,
+      "style": "linework",
+      "size": "L",
+      "price_range": "8,000 – 14,000"
+    },
+    {
+      "id": 12,
+      "style": "linework",
+      "size": "XL",
+      "price_range": "14,000+"
+    },
+    {
+      "id": 13,
+      "style": "custom",
+      "size": "S",
+      "price_range": "面議"
+    },
+    {
+      "id": 14,
+      "style": "custom",
+      "size": "M",
+      "price_range": "面議"
+    },
+    {
+      "id": 15,
+      "style": "custom",
+      "size": "L",
+      "price_range": "面議"
+    },
+    {
+      "id": 16,
+      "style": "custom",
+      "size": "XL",
+      "price_range": "面議"
+    }
+  ]
+}
