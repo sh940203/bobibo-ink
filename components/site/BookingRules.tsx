@@ -5,8 +5,8 @@ import type { BookingRule } from '@/lib/types'
 
 // 這些關鍵字會加螢光筆效果
 const HIGHLIGHTS = [
-  '女性', '訂金', '恕不退還訂金', '一次改期機會',
-  '現金', '匯款', '攜伴一位', '15分鐘', '訂金不予退還', '三天前',
+  '女性', '恕不退還訂金', '訂金不予退還', '訂金',
+  '一次', '現金', '匯款', '攜伴一位', '15 分鐘', '三天前',
 ]
 
 function highlight(text: string) {
@@ -65,8 +65,10 @@ export default function BookingRules({ rules }: { rules: BookingRule[] }) {
 
         <style>{`
           .rule-mark {
+            background: none;
             color: #FFE000;
             font-weight: 500;
+            text-shadow: 0 0 16px rgba(255, 224, 0, 0.45);
           }
           .rule-text::selection,
           .rule-text *::selection {
