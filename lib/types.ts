@@ -23,6 +23,7 @@ export interface Artwork {
   r2_key: string
   is_featured: number // 0 | 1
   is_hero: number    // 0 | 1（首頁翅膀展示，最多 6 張）
+  tags: string | null  // JSON array of custom tag strings
   display_order: number
   created_at: string
 }

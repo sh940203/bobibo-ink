@@ -16,7 +16,7 @@ export async function POST(req: Request) {
   const denied = await guard()
   if (denied) return denied
 
-  const { title, category, image_url, r2_key, is_featured, is_hero } = await req.json()
+  const { title, category, image_url, r2_key, is_featured, is_hero, tags } = await req.json()
   if (!category || !GALLERY_CATEGORIES.includes(category)) {
     return NextResponse.json({ error: '分類無效' }, { status: 400 })
   }
@@ -40,8 +40,8 @@ export async function POST(req: Request) {
   const next = Number((ord.rows[0] as any).n)
 
   await db.execute({
-    sql: 'INSERT INTO artworks (title, category, image_url, r2_key, is_featured, is_hero, display_order) VALUES (?,?,?,?,?,?,?)',
-    args: [title || null, category, image_url, r2_key || '', is_featured ? 1 : 0, is_hero ? 1 : 0, next],
+    sql: 'INSERT INTO artworks (title, category, image_url, r2_key, is_featured, is_hero, tags, display_order) VALUES (?,?,?,?,?,?,?,?)',
+    args: [title || null, category, image_url, r2_key || '', is_featured ? 1 : 0, is_hero ? 1 : 0, tags ? JSON.stringify(tags) : null, next],
   })
   return NextResponse.json({ ok: true })
 }

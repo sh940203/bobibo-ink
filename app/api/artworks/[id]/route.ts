@@ -50,6 +50,10 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     fields.push('is_hero = ?')
     args.push(body.is_hero ? 1 : 0)
   }
+  if (body.tags !== undefined) {
+    fields.push('tags = ?')
+    args.push(body.tags?.length ? JSON.stringify(body.tags) : null)
+  }
   if (fields.length === 0) return NextResponse.json({ ok: true })
 
   args.push(id)

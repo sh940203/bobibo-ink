@@ -10,7 +10,7 @@ const STYLE_OPTIONS: { value: string; label: string }[] = [
   { value: 'other', label: '其他（請於描述說明）' },
 ]
 
-const BODY_PARTS = ['手臂', '前臂', '手腕', '手指', '腳踝', '小腿', '大腿', '背部', '肋骨', '側腰', '鎖骨', '其他']
+const BODY_PARTS = ['手臂', '前臂', '手腕', '手指', '腳踝', '小腿', '大腿', '背部', '側腰', '鎖骨', '其他']
 
 export default function InquiryForm({ pricing }: { pricing: Pricing[] }) {
   const [name, setName] = useState('')
@@ -51,7 +51,9 @@ export default function InquiryForm({ pricing }: { pricing: Pricing[] }) {
   const togglePart = (p: string) =>
     setParts((prev) => (prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]))
 
-  const onSubmit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false)
+
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!name.trim() || !contact.trim() || !style) {
       setError('請填寫姓名、聯絡方式與刺青風格')
@@ -62,7 +64,20 @@ export default function InquiryForm({ pricing }: { pricing: Pricing[] }) {
       return
     }
     setError('')
-    setSubmitted(true)
+    setSubmitting(true)
+    try {
+      const res = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, contact, style, parts, size, description: desc, preferred_time: time }),
+      })
+      if (!res.ok) throw new Error()
+      setSubmitted(true)
+    } catch {
+      setError('送出失敗，請稍後再試或直接透過 Instagram 聯繫')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   if (submitted) {
@@ -73,18 +88,28 @@ export default function InquiryForm({ pricing }: { pricing: Pricing[] }) {
             ✦ 已收到你的詢問！
           </p>
           <p className="font-body font-light leading-relaxed text-ink/75 mb-8">
-            感謝你的來信，我會盡快與你聯繫討論細節。
-            <br />
-            為了更快回覆，也歡迎直接透過 Instagram 私訊我 👇
+            你的資料已儲存，我會盡快與你聯繫討論細節。
+            <br className="hidden md:block" />
+            也可以透過以下方式直接聯繫，通常回覆更快 ↓
           </p>
-          <a
-            href="https://www.instagram.com/bobibo_ink"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-fill font-body !border-ink !text-ink"
-          >
-            @bobibo_ink →
-          </a>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="https://line.me/R/ti/p/@749jttct"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-fill font-body !border-ink !text-ink"
+            >
+              ◎ LINE 官方帳號 →
+            </a>
+            <a
+              href="https://ig.me/m/bobibo_ink"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-fill font-body !border-ink !text-ink"
+            >
+              ◎ IG 私訊 @bobibo_ink →
+            </a>
+          </div>
         </div>
       </section>
     )
@@ -267,8 +292,8 @@ export default function InquiryForm({ pricing }: { pricing: Pricing[] }) {
 
           {error && <p className="font-body text-sm text-red-600">{error}</p>}
 
-          <button type="submit" className="btn-fill font-body !border-ink !text-ink w-full justify-center py-3">
-            送出詢問 →
+          <button type="submit" disabled={submitting} className="btn-fill font-body !border-ink !text-ink w-full justify-center py-3 disabled:opacity-50">
+            {submitting ? '送出中…' : '送出詢問 →'}
           </button>
         </form>
       </div>

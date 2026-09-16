@@ -9,7 +9,9 @@ const SESSION_DAYS = 7
 export const SESSION_MAX_AGE = SESSION_DAYS * 24 * 60 * 60 // 秒
 
 function getSecret(): string {
-  return process.env.ADMIN_SESSION_SECRET || 'dev-insecure-secret'
+  const s = process.env.ADMIN_SESSION_SECRET
+  if (!s) throw new Error('ADMIN_SESSION_SECRET 環境變數未設定')
+  return s
 }
 
 function toBase64Url(bytes: ArrayBuffer | Uint8Array): string {
@@ -45,8 +47,28 @@ export async function verifySessionToken(token: string | undefined | null): Prom
   if (!token) return false
   const [payload, sig] = token.split('.')
   if (!payload || !sig) return false
-  const expected = await hmac(payload)
-  if (sig !== expected) return false
+
+  // 使用 Web Crypto verify（常數時間比對，防止 timing attack）
+  const key = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(getSecret()),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['verify']
+  )
+  let sigBytes: Uint8Array
+  try {
+    // base64url → Uint8Array
+    const b64 = sig.replace(/-/g, '+').replace(/_/g, '/')
+    const bin = atob(b64)
+    sigBytes = new Uint8Array(bin.length)
+    for (let i = 0; i < bin.length; i++) sigBytes[i] = bin.charCodeAt(i)
+  } catch {
+    return false
+  }
+  const valid = await crypto.subtle.verify('HMAC', key, sigBytes.buffer as ArrayBuffer, new TextEncoder().encode(payload))
+  if (!valid) return false
+
   const exp = Number(payload)
   if (!Number.isFinite(exp) || Date.now() > exp) return false
   return true

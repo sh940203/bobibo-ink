@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast'
 import { api } from '@/lib/api-client'
 
 const NAV = [
+  { href: '/admin/inquiries', label: '詢問記錄' },
   { href: '/admin/artworks', label: '作品集管理' },
   { href: '/admin/about', label: '關於我' },
   { href: '/admin/booking-rules', label: '預約須知' },
@@ -69,7 +70,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         }`}
       >
         <div>
-          <a href="/admin/artworks" className="hidden md:block font-body font-semibold text-lg tracking-tight px-4 mb-8">
+          <a href="/admin/inquiries" className="hidden md:block font-body font-semibold text-lg tracking-tight px-4 mb-8">
             彈塗魚 後台
           </a>
           <NavLinks />

@@ -1,7 +1,7 @@
 'use client'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import Image from 'next/image'
-import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
+import { AnimatePresence, motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
 import type { AboutContent, StudioPhoto, Announcement } from '@/lib/types'
 import RevealText from './RevealText'
 
@@ -67,6 +67,8 @@ export default function About({
 }) {
   const rotations = ['-3deg', '4deg', '-1.5deg']
   const pinRef = useRef<HTMLDivElement>(null)
+  const [mobileSlide, setMobileSlide] = useState(0)
+  const mobileTotal = photos.length
 
   // 整個釘選區的捲動進度（0→1 = 0→380vh）
   const { scrollYProgress } = useScroll({
@@ -114,71 +116,118 @@ export default function About({
                   （品牌故事文字將由 Admin 後台編輯）
                 </p>
               )}
-              <a href="/#inquiry" className="btn-fill font-body mt-8 !border-ink !text-ink">
-                預約詢價 →
-              </a>
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 mt-8">
+                <a
+                  href="https://line.me/R/ti/p/@749jttct"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-fill font-body !border-ink !text-ink"
+                >
+                  ◎ LINE 官方帳號
+                </a>
+                <a
+                  href="https://www.instagram.com/bobibo_ink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-fill font-body !border-ink !text-ink"
+                >
+                  ◎ Instagram @bobibo_ink
+                </a>
+                <a
+                  href="http://xhslink.com/m/AADOBWCLBis"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-fill font-body !border-ink !text-ink"
+                >
+                  ◎ 小紅書 彈塗魚tattoo
+                </a>
+              </div>
             </div>
 
-            {/* 右欄：堆疊（文字階段）→ 輪播（照片階段） */}
-            <div className="flex justify-center">
-              <div className="relative w-64 h-80 md:w-80 md:h-96">
+            {/* 右欄 */}
+            <div className="flex flex-col items-center gap-4">
 
-                {/* 堆疊照片（文字階段，桌機逐漸淡出） */}
-                <motion.div
-                  style={{ opacity: stackOpacity }}
-                  className="absolute inset-0 photo-stack"
-                >
-                  {[0, 1, 2].map((i) => {
-                    const photo = photos[i]
-                    return (
-                      <div
+              {/* ── 手機：點擊輪播 ── */}
+              {hasPhotos && mobileTotal > 0 && (
+                <div className="md:hidden relative w-64 h-80 polaroid overflow-hidden rounded-xl">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={mobileSlide}
+                      className="absolute inset-0"
+                      initial={{ opacity: 0, x: 30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -30 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <Image
+                        src={photos[mobileSlide].image_url}
+                        alt={`工作室 ${mobileSlide + 1}`}
+                        fill
+                        sizes="256px"
+                        className="object-cover"
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                  {/* 左右箭頭 */}
+                  <button
+                    onClick={() => setMobileSlide((s) => (s - 1 + mobileTotal) % mobileTotal)}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center text-lg"
+                  >‹</button>
+                  <button
+                    onClick={() => setMobileSlide((s) => (s + 1) % mobileTotal)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center text-lg"
+                  >›</button>
+                  {/* 點指示器 */}
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+                    {photos.map((_, i) => (
+                      <button
                         key={i}
-                        className={`photo photo-${i + 1} absolute inset-0 polaroid`}
-                        style={{ transform: `rotate(${rotations[i]})`, zIndex: 3 - i }}
-                      >
-                        <div className="relative w-full h-full bg-warm-gray/20">
-                          {photo ? (
-                            <Image
-                              src={photo.image_url}
-                              alt={`工作室環境照 ${i + 1}`}
-                              fill
-                              sizes="320px"
-                              className="object-cover"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-warm-gray text-xs">
-                              工作室照 {i + 1}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )
-                  })}
-                </motion.div>
+                        onClick={() => setMobileSlide(i)}
+                        className={`w-1.5 h-1.5 rounded-full transition-colors ${i === mobileSlide ? 'bg-white' : 'bg-white/40'}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
 
-                {/* 輪播（照片階段，桌機逐漸淡入） */}
-                {hasPhotos && (
-                  <motion.div
-                    style={{ opacity: carouselOpacity }}
-                    className="absolute inset-0 hidden md:block polaroid"
-                  >
-                    <div className="relative w-full h-full bg-warm-gray/20 rounded-xl overflow-hidden">
-                      {photos.map((photo, i) => (
-                        <CarouselSlide
-                          key={photo.id}
-                          photo={photo}
-                          idx={i}
-                          total={photos.length}
-                          progress={scrollYProgress}
-                        />
-                      ))}
-                      {photos.length > 1 && (
-                        <SlideCounter total={photos.length} progress={scrollYProgress} />
-                      )}
-                    </div>
+              {/* ── 桌機：捲動堆疊 → 輪播 ── */}
+              <div className="hidden md:flex justify-center">
+                <div className="relative w-80 h-96">
+                  {/* 堆疊（文字階段逐漸淡出） */}
+                  <motion.div style={{ opacity: stackOpacity }} className="absolute inset-0 photo-stack">
+                    {[0, 1, 2].map((i) => {
+                      const photo = photos[i]
+                      return (
+                        <div
+                          key={i}
+                          className={`photo photo-${i + 1} absolute inset-0 polaroid`}
+                          style={{ transform: `rotate(${rotations[i]})`, zIndex: 3 - i }}
+                        >
+                          <div className="relative w-full h-full bg-warm-gray/20">
+                            {photo ? (
+                              <Image src={photo.image_url} alt={`工作室環境照 ${i + 1}`} fill sizes="320px" className="object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-warm-gray text-xs">工作室照 {i + 1}</div>
+                            )}
+                          </div>
+                        </div>
+                      )
+                    })}
                   </motion.div>
-                )}
+                  {/* 捲動輪播（照片階段淡入） */}
+                  {hasPhotos && (
+                    <motion.div style={{ opacity: carouselOpacity }} className="absolute inset-0 polaroid">
+                      <div className="relative w-full h-full bg-warm-gray/20 rounded-xl overflow-hidden">
+                        {photos.map((photo, i) => (
+                          <CarouselSlide key={photo.id} photo={photo} idx={i} total={photos.length} progress={scrollYProgress} />
+                        ))}
+                        {photos.length > 1 && <SlideCounter total={photos.length} progress={scrollYProgress} />}
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
               </div>
+
             </div>
 
           </div>

@@ -32,12 +32,28 @@ export default function Footer({ announcement }: { announcement: Announcement | 
         {/* 聯絡 / 地址 */}
         <div className="font-body text-sm text-cream/70 space-y-3">
           <a
+            href="https://line.me/R/ti/p/@749jttct"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 hover:text-sage transition-colors"
+          >
+            ◎ LINE 官方帳號 @749jttct
+          </a>
+          <a
             href="https://www.instagram.com/bobibo_ink"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 hover:text-sage transition-colors"
+            className="flex items-center gap-2 hover:text-sage transition-colors"
           >
-            ◎ @bobibo_ink
+            ◎ Instagram @bobibo_ink
+          </a>
+          <a
+            href="http://xhslink.com/m/AADOBWCLBis"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 hover:text-sage transition-colors"
+          >
+            ◎ 小紅書 彈塗魚tattoo
           </a>
           <p className="leading-relaxed">居家工作室（預約制）<br />台中市龍井區・近東海商圈</p>
           {announcement?.is_visible === 1 && announcement.message && (
@@ -51,6 +67,17 @@ export default function Footer({ announcement }: { announcement: Announcement | 
       <div className="relative border-t border-white/10">
         <p className="max-w-6xl mx-auto px-6 py-6 font-body text-xs text-warm-gray text-center">
           © {year} 彈塗魚・tattoo 魚. All rights reserved.
+        </p>
+        <p className="max-w-6xl mx-auto px-6 pb-6 font-body text-xs text-warm-gray/50 text-center">
+          Produced by{' '}
+          <a
+            href="https://sh-studio.huhu940203.workers.dev/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-sage transition-colors"
+          >
+            @SH Studio
+          </a>
         </p>
       </div>
     </footer>

@@ -3,5 +3,5 @@ export const runtime = 'edge'
 import { redirect } from 'next/navigation'
 
 export default function AdminIndex() {
-  redirect('/admin/artworks')
+  redirect('/admin/inquiries')
 }
