@@ -23,7 +23,9 @@ const inter = Inter({
 export async function generateMetadata(): Promise<Metadata> {
   const announcement = await getAnnouncement()
   const iconUrl = announcement?.favicon_url || '/favicon-default.jpg'
+  const ogImage = 'https://bobibo-ink.vercel.app/favicon-default.jpg'
   return {
+    metadataBase: new URL('https://bobibo-ink.vercel.app'),
     title: '彈塗魚・tattoo 魚',
     description:
       '彈塗魚・tattoo 魚 — 居家工作室刺青師。寵物肖像、動漫人物、線條文字、客製化小圖。把它變成專屬於你的作品。',
@@ -32,11 +34,11 @@ export async function generateMetadata(): Promise<Metadata> {
       title: '彈塗魚・tattoo 魚',
       description: '把它變成專屬於你的作品。',
       type: 'website',
-      images: [{ url: 'https://bobibo-ink.vercel.app/favicon-default.jpg', width: 1200, height: 1200 }],
+      images: [{ url: ogImage, width: 1200, height: 1200, alt: '彈塗魚 tattoo 魚' }],
     },
     twitter: {
       card: 'summary_large_image',
-      images: ['https://bobibo-ink.vercel.app/favicon-default.jpg'],
+      images: [ogImage],
     },
   }
 }
