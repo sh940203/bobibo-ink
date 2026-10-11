@@ -55,7 +55,10 @@ export default function Footer({ announcement }: { announcement: Announcement | 
           >
             ◎ 小紅書 彈塗魚tattoo
           </a>
-          <p className="leading-relaxed">居家工作室（預約制）<br />台中市龍井區・近東海商圈</p>
+          <p className="leading-relaxed">
+            {announcement?.studio_city || '彰化縣員林市'}<br />
+            {announcement?.studio_desc || '近員林火車站，居家工作室（採預約制）'}
+          </p>
           {announcement?.is_visible === 1 && announcement.message && (
             <p className="text-warm-gray text-xs leading-relaxed border-l-2 border-sage/40 pl-3">
               {announcement.message}

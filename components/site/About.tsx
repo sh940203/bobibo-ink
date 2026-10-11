@@ -245,9 +245,11 @@ export default function About({
                   <p className="font-body text-[11px] tracking-[0.25em] uppercase text-cream/55 mb-1">
                     Current Studio
                   </p>
-                  <p className="font-body font-medium text-lg leading-snug">台中市龍井區</p>
+                  <p className="font-body font-medium text-lg leading-snug">
+                    {announcement?.studio_city || '彰化縣員林市'}
+                  </p>
                   <p className="font-body font-light text-sm text-cream/70 mt-0.5">
-                    近東海商圈・居家工作室（採預約制）
+                    {announcement?.studio_desc || '近員林火車站，居家工作室（採預約制）'}
                   </p>
                 </div>
               </div>

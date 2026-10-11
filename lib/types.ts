@@ -44,6 +44,8 @@ export interface Announcement {
   id: number
   is_visible: number // 0 | 1
   message: string
+  studio_city: string | null
+  studio_desc: string | null
   updated_at: string
 }
 

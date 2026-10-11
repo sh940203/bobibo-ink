@@ -14,11 +14,11 @@ export async function GET() {
 export async function PUT(req: Request) {
   const denied = await guard()
   if (denied) return denied
-  const { message, is_visible } = await req.json()
+  const { message, is_visible, studio_city, studio_desc } = await req.json()
   await db.execute({
-    sql: `INSERT INTO announcements (id, message, is_visible, updated_at) VALUES (1, ?, ?, datetime('now'))
-          ON CONFLICT(id) DO UPDATE SET message = excluded.message, is_visible = excluded.is_visible, updated_at = datetime('now')`,
-    args: [message ?? '', is_visible ? 1 : 0],
+    sql: `INSERT INTO announcements (id, message, is_visible, studio_city, studio_desc, updated_at) VALUES (1, ?, ?, ?, ?, datetime('now'))
+          ON CONFLICT(id) DO UPDATE SET message = excluded.message, is_visible = excluded.is_visible, studio_city = excluded.studio_city, studio_desc = excluded.studio_desc, updated_at = datetime('now')`,
+    args: [message ?? '', is_visible ? 1 : 0, studio_city ?? '', studio_desc ?? ''],
   })
   return NextResponse.json({ ok: true })
 }
