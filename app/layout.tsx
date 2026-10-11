@@ -3,8 +3,8 @@ export const runtime = 'edge'
 import type { Metadata } from 'next'
 import { Cormorant_Garamond, Inter } from 'next/font/google'
 import './globals.css'
+import { getAnnouncement } from '@/lib/queries'
 
-// 優雅襯線：僅用於 section 標題與少數英文點綴（modern-minimal 的對比角色）
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
   style: ['normal', 'italic'],
@@ -13,7 +13,6 @@ const cormorant = Cormorant_Garamond({
   display: 'swap',
 })
 
-// 主要字型：品牌字 / 標語 / 內文 / UI 一律 Inter，靠字重與字距做層次
 const inter = Inter({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800'],
@@ -21,15 +20,20 @@ const inter = Inter({
   display: 'swap',
 })
 
-export const metadata: Metadata = {
-  title: '彈塗魚・tattoo 魚',
-  description:
-    '彈塗魚・tattoo 魚 — 居家工作室刺青師。寵物肖像、動漫人物、線條文字、客製化小圖。把它變成專屬於你的作品。',
-  openGraph: {
+export async function generateMetadata(): Promise<Metadata> {
+  const announcement = await getAnnouncement()
+  const iconUrl = announcement?.favicon_url || '/favicon-default.jpg'
+  return {
     title: '彈塗魚・tattoo 魚',
-    description: '把它變成專屬於你的作品。',
-    type: 'website',
-  },
+    description:
+      '彈塗魚・tattoo 魚 — 居家工作室刺青師。寵物肖像、動漫人物、線條文字、客製化小圖。把它變成專屬於你的作品。',
+    icons: { icon: iconUrl, apple: iconUrl },
+    openGraph: {
+      title: '彈塗魚・tattoo 魚',
+      description: '把它變成專屬於你的作品。',
+      type: 'website',
+    },
+  }
 }
 
 export default function RootLayout({

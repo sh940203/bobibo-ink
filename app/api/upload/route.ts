@@ -4,7 +4,7 @@ import { saveAsset } from '@/lib/assets'
 
 export const runtime = 'edge'
 
-const ALLOWED_FOLDERS = ['artworks', 'studio', 'about'] as const
+const ALLOWED_FOLDERS = ['artworks', 'studio', 'about', 'favicon'] as const
 const ALLOWED_TYPES   = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
 const MAX_SIZE        = 10 * 1024 * 1024 // 10 MB
 

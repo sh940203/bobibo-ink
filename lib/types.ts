@@ -46,6 +46,7 @@ export interface Announcement {
   message: string
   studio_city: string | null
   studio_desc: string | null
+  favicon_url: string | null
   updated_at: string
 }
 
