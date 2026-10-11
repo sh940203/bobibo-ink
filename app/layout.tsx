@@ -32,6 +32,11 @@ export async function generateMetadata(): Promise<Metadata> {
       title: '彈塗魚・tattoo 魚',
       description: '把它變成專屬於你的作品。',
       type: 'website',
+      images: [{ url: 'https://bobibo-ink.vercel.app/favicon-default.jpg', width: 1200, height: 1200 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: ['https://bobibo-ink.vercel.app/favicon-default.jpg'],
     },
   }
 }
