@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server'
 import { guard } from '@/lib/admin-guard'
 import { saveAsset } from '@/lib/assets'
 
-export const runtime = 'edge'
+// Node.js runtime：AWS SDK（R2）與 Buffer 需要 Node.js，不相容 Edge Runtime
+export const runtime = 'nodejs'
 
 const ALLOWED_FOLDERS = ['artworks', 'studio', 'about', 'favicon'] as const
 const ALLOWED_TYPES   = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']

@@ -24,7 +24,7 @@ export async function saveAsset(
   const buffer = Buffer.from(await file.arrayBuffer())
 
   if (!r2Configured()) {
-    throw new Error('R2 未設定，無法上傳檔案')
+    throw new Error('R2 環境變數未設定（請檢查 Vercel 後台 R2_ACCOUNT_ID / R2_ACCESS_KEY_ID）')
   }
   const { uploadToR2 } = await import('./r2')
   const url = await uploadToR2(buffer, objectKey, file.type)
