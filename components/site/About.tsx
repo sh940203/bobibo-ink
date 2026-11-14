@@ -108,7 +108,7 @@ export default function About({
                   text={about.body_text}
                   progress={scrollYProgress}
                   revealRange={[0.03, 0.42]}
-                  className="font-body font-light leading-relaxed text-ink max-w-md"
+                  className="font-body leading-relaxed text-ink max-w-md"
                   paragraphClassName="mb-4 last:mb-0"
                 />
               ) : (
