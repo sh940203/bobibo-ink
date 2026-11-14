@@ -124,7 +124,7 @@ export default function InquiryForm({ pricing }: { pricing: Pricing[] }) {
         <h2 className="reveal reveal-delay-1 font-display italic text-4xl md:text-5xl text-center mb-3">
           預約詢價
         </h2>
-        <p className="reveal reveal-delay-1 font-body font-light text-sm text-warm-gray text-center mb-12">
+        <p className="reveal reveal-delay-1 font-body font-normal text-sm text-ink/70 text-center mb-12">
           目前暫時以女性顧客預約為主，送出後我會與你聯繫。
         </p>
 
