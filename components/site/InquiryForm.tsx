@@ -130,8 +130,8 @@ export default function InquiryForm({ pricing }: { pricing: Pricing[] }) {
 
         {/* LINE 直接聯繫 */}
         <div className="reveal mb-10 p-6 rounded-2xl border border-sage/30 bg-sage/5 text-center">
-          <p className="font-body text-xs tracking-[0.2em] uppercase text-sage mb-2">最快速的方式</p>
-          <p className="font-body text-sm text-ink mb-4">
+          <p className="font-body font-medium text-xs tracking-[0.2em] uppercase text-ink/60 mb-2">最快速的方式</p>
+          <p className="font-body font-normal text-sm text-ink mb-4">
             直接在 LINE 傳訊給我，附上參考圖說明需求
           </p>
           <a
@@ -148,7 +148,7 @@ export default function InquiryForm({ pricing }: { pricing: Pricing[] }) {
         {/* 分隔線 */}
         <div className="reveal flex items-center gap-4 mb-10">
           <div className="flex-1 h-px bg-ink/10" />
-          <span className="font-body text-xs text-ink/50 tracking-widest">或填寫表單</span>
+          <span className="font-body font-normal text-xs text-ink/60 tracking-widest">或填寫表單</span>
           <div className="flex-1 h-px bg-ink/10" />
         </div>
 
