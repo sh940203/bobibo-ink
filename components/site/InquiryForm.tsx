@@ -311,7 +311,7 @@ export default function InquiryForm({ pricing }: { pricing: Pricing[] }) {
               onChange={(e) => setAgeOk(e.target.checked)}
               className="w-4 h-4 accent-sage"
             />
-            <span className="font-body text-sm text-ink/80">我已滿 18 歲 *</span>
+            <span className="font-body font-normal text-sm text-ink">我已滿 18 歲 *</span>
           </label>
 
           {error && <p className="font-body text-sm text-red-600">{error}</p>}
@@ -352,7 +352,7 @@ function Field({
 }) {
   return (
     <div className="reveal">
-      <label className="block font-body text-sm text-ink/80 mb-2">
+      <label className="block font-body font-normal text-sm text-ink mb-2">
         {label}
         {required && <span className="text-sage"> *</span>}
       </label>
